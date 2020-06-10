@@ -1,48 +1,23 @@
-import React, { Component } from 'react';
-import {
-    Card, CardImg, CardImgOverlay, CardText, CardBody,
-    CardTitle
-} from 'reactstrap';
-import DishdetailComponent from './DishdetailComponent';
-class Menu extends Component {
+import React from 'react';
+import {Card, CardImg, CardImgOverlay,CardTitle} from 'reactstrap';
 
-    constructor(props) {
-        super(props);
+function RenderMenuItems({dish,onClick}){
+    return(
+        <Card onClick={() => onClick(dish.id)}>
+        <CardImg width="100%" src={dish.image} alt={dish.name} />
+        <CardImgOverlay>
+            <CardTitle>{dish.name}</CardTitle>
+        </CardImgOverlay>
+        </Card>
+    );
+};
 
-        this.state = {
-            selectedDish: null,
-            comments: null
-        }
-    }
+const Menu = (props) =>  {
 
-    renderDish(dish) {
-        if (dish != null)
+        const menu = props.dishes.map((dish) => {
             return (
-                <Card>
-                    <CardImg top src={dish.image} alt={dish.name} />
-                    <CardBody>
-                        <CardTitle>{dish.name}</CardTitle>
-                        <CardText>{dish.description}</CardText>
-                    </CardBody>
-                </Card>
-            );
-        else
-            return (
-                <div></div>
-            );
-    }
-
-    render() {
-        const menu = this.props.dishes.map((dish) => {
-            return (
-                <div className="col-12 col-md-5 m-1">
-                    <Card key={dish.id}
-                        onClick={() => this.props.onClick(dish.id)}>
-                        <CardImg width="100%" src={dish.image} alt={dish.name} />
-                        <CardImgOverlay>
-                            <CardTitle>{dish.name}</CardTitle>
-                        </CardImgOverlay>
-                    </Card>
+                <div key={dish.id} className="col-12 col-md-5 m-1">
+                    <RenderMenuItems dish={dish} onClick={props.onClick}/>
                 </div>
             );
         });
@@ -55,6 +30,5 @@ class Menu extends Component {
             </div>
         );
     }
-}
 
 export default Menu;
